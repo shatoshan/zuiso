@@ -7,6 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
   User,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "./config";
 
@@ -35,11 +36,16 @@ export const useAuth = () => {
     return signOut(auth);
   };
 
+  const resetPassword = async (email: string) => {
+    return sendPasswordResetEmail(auth, email);
+  };
+
   return {
     user,
     loading,
     signup,
     login,
     logout,
+    resetPassword,
   };
 };

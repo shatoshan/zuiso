@@ -1,6 +1,5 @@
 "use client";
 
-// src/lib/firebase/authContext.tsx
 import { createContext, useContext, ReactNode } from "react";
 import { User } from "firebase/auth";
 import { useAuth } from "./auth";
@@ -11,6 +10,7 @@ type AuthContextType = {
   signup: (email: string, password: string) => Promise<any>;
   login: (email: string, password: string) => Promise<any>;
   logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
