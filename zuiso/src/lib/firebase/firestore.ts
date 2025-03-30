@@ -45,10 +45,15 @@ export const updateUserProfile = async (
 ) => {
   const userRef = doc(db, "users", userId);
   try {
-    await updateDoc(userRef, {
-      ...data,
-      updatedAt: serverTimestamp(),
-    });
+    // updateDocではなくsetDocを使用し、mergeオプションをtrueに設定
+    await setDoc(
+      userRef,
+      {
+        ...data,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    ); // これがドキュメントが存在しなくても作成するようにします
     return true;
   } catch (error) {
     console.error("Error updating user profile", error);
