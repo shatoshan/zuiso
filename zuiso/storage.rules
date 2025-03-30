@@ -1,0 +1,20 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // ユーザー認証チェック関数
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // ユーザーのファイルパスのルール
+    match /users/{userId}/{allPaths=**} {
+      // 自分のファイルのみ読み取り・書き込み可能
+      allow read, write: if isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // デフォルトですべてのアクセスを拒否
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
